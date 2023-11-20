@@ -1,7 +1,7 @@
 import { Component, ComponentProps, TweenFunction, TweenType, useTween } from "../tanim";
 import TUtil from "../../src/TUtil";
 
-export default class Rectangle extends Component {
+export default class Ellipse extends Component {
 	width: TweenFunction<number>;
 	height: TweenFunction<number>;
 	fill: string;
@@ -13,13 +13,13 @@ export default class Rectangle extends Component {
 		height = 0,
 		fill = "#ffffff",
 		stroke = "transparent",
-	}: Partial<ComponentProps<Rectangle>>) {
+	}: Partial<ComponentProps<Ellipse>>) {
 		super();
 		this.width = useTween(width, TUtil.lerp);
 		this.height = useTween(height, TUtil.lerp);
 		this.fill = fill;
 		this.stroke = stroke;
-		this.x = useTween(x, TUtil.lerp);
+        this.x = useTween(x, TUtil.lerp);
 		this.y = useTween(y, TUtil.lerp);
 	}
 	render(ctx: CanvasRenderingContext2D, data: {parentGlobalX: number, parentGlobalY: number}) {
@@ -27,9 +27,9 @@ export default class Rectangle extends Component {
 		ctx.strokeStyle = this.stroke;
 	
 		const global = this.globalPosition(data);
-	
-		ctx.fillRect(global.x, global.y, this.width(), this.height());
-		ctx.strokeRect(global.x, global.y, this.width(), this.height());
+        ctx.ellipse(global.x, global.y, this.width()/2, this.height()/2, 0, 0, 2 * Math.PI);
+		ctx.fill();
+        ctx.stroke();
 		super.render(ctx, data);
 	}
 }
